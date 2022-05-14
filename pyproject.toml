@@ -1,7 +1,10 @@
 [tool.poetry]
 name = "siscomex-ncm"
-version = "1.0.0"
+version = "1.0.1"
 description = "API access to the NCM (Nomenclatura Comum do Mercosul) by Siscomex"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/leogregianin/siscomex-ncm"
 authors = ["Leonardo Gregianin <leogregianin@gmail.com>"]
 packages = [
     { include = "ncm" }
