@@ -3,6 +3,9 @@ name = "siscomex-ncm"
 version = "1.0.0"
 description = "API access to the NCM (Nomenclatura Comum do Mercosul) by Siscomex"
 authors = ["Leonardo Gregianin <leogregianin@gmail.com>"]
+packages = [
+    { include = "ncm" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
