@@ -1,5 +1,5 @@
 ## siscomex-ncm
-[![PyPI](https://img.shields.io/pypi/v/siscomex-ncm)](https://pypi.org/project/siscomex-ncm/) ![pyversions](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue) ![https://github.com/leogregianin/siscomex-ncm/actions](https://github.com/leogregianin/siscomex-ncm/workflows/CI/badge.svg?branch=main)
+[![PyPI](https://img.shields.io/pypi/v/siscomex-ncm)](https://pypi.org/project/siscomex-ncm/) ![pyversions](https://img.shields.io/badge/python-3.6%20%7C%203.7%20%7C%203.8%20%7C%203.9%20%7C%203.10%20%7C%203.11-blue) ![https://github.com/leogregianin/siscomex-ncm/actions](https://github.com/leogregianin/siscomex-ncm/workflows/CI/badge.svg?branch=main)
 
 ## NCM (Nomenclatura Comum do Mercosul)
 
