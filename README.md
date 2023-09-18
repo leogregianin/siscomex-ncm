@@ -100,8 +100,7 @@ print(ncm_list.ncm_list)
 
 ```python
 fetch_ncm = FetchNcm()
-fetch_ncm.only_ncm_8_digits = True
-ncm_list = fetch_ncm.get_all()
+ncm_list = fetch_ncm.get_all(only_ncm_8_digits = True)
 print(ncm_list.ncm_list)
 ```
 

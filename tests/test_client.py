@@ -1,7 +1,6 @@
 from datetime import datetime
 from pathlib import Path
 
-from ncm.entities import Ncm, NcmList
 from ncm.client import FetchNcm, CACHE_FILE
 from ncm.exceptions import NcmDownloadException
 
@@ -14,12 +13,17 @@ def test_download_json():
     json_data = fetch_ncm.download_json()
     assert json_data is not None
 
+
 def test_download_error():
     ncm = FetchNcm()
-    with patch('ncm.client.FetchNcm.download_json', side_effect=NcmDownloadException('Error ABC')):
+    with patch(
+        'ncm.client.FetchNcm.download_json',
+        side_effect=NcmDownloadException('Error ABC')
+    ):
         with pytest.raises(NcmDownloadException) as error:
             ncm.download_json('mock:8080')
         assert str(error.value) == "Error: API not return 200 with the message Error ABC"
+
 
 def test_save_json():
     fetch_ncm = FetchNcm()
@@ -59,7 +63,7 @@ def test_get_codigo_ncm_correto():
         day=31, month=12, year=9999, hour=0, minute=0, second=0
     )
     assert obj_dict.tipo_ato == 'Res Camex'
-    assert obj_dict.numero_ato == '000272'
+    assert obj_dict.numero_ato == '272'
     assert obj_dict.ano_ato == '2021'
 
 

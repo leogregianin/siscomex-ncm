@@ -62,7 +62,7 @@ class FetchNcm(object):
             self.save_json(json_data)
             return json_data
 
-    def get_all(self) -> NcmList:
+    def get_all(self, only_ncm_8_digits=False) -> NcmList:
         """
         Get all Ncm from json
 
@@ -75,12 +75,7 @@ class FetchNcm(object):
             data_fim = datetime.strptime(item['Data_Fim'], '%d/%m/%Y')
             codigo_ncm = item['Codigo'].replace('.', '')
 
-            added_ncm = True
-            if self.only_ncm_8_digits:
-                if len(codigo_ncm) != 8:
-                    added_ncm = False
-
-            if added_ncm:
+            if not only_ncm_8_digits or len(codigo_ncm) == 8:
                 list_ncm.append(
                     Ncm(
                         codigo_ncm=item['Codigo'],
@@ -92,8 +87,21 @@ class FetchNcm(object):
                         ano_ato=item['Ano_Ato']
                     )
                 )
-
         return NcmList(ncm_list=list_ncm)
+
+    def build_ncm_index(self, json_data):
+        index = {}
+        for item in json_data['Nomenclaturas']:
+            codigo_ncm = item['Codigo'].replace('.', '')
+            index[codigo_ncm] = {
+                'descricao_ncm': item['Descricao'],
+                'data_inicio': datetime.strptime(item['Data_Inicio'], '%d/%m/%Y'),
+                'data_fim': datetime.strptime(item['Data_Fim'], '%d/%m/%Y'),
+                'tipo_ato': item['Tipo_Ato'],
+                'numero_ato': item['Numero_Ato'],
+                'ano_ato': item['Ano_Ato']
+            }
+        return index
 
     def get_codigo_ncm(self, codigo_ncm: str) -> Ncm:
         """
@@ -101,31 +109,27 @@ class FetchNcm(object):
 
         @param codigo_ncm: codigo_ncm to search
         @return: Ncm
+
         """
-        json_data = self.json_data['Nomenclaturas']
-        for item in json_data:
-            codigo_ncm_json = item['Codigo'].replace('.', '')
-
-            if codigo_ncm_json == codigo_ncm:
-                data_inicio = datetime.strptime(item['Data_Inicio'], '%d/%m/%Y')  # noqa
-                data_fim = datetime.strptime(item['Data_Fim'], '%d/%m/%Y')
-
-                return Ncm(
-                    codigo_ncm=codigo_ncm_json,
-                    descricao_ncm=item['Descricao'],
-                    data_inicio=data_inicio,
-                    data_fim=data_fim,
-                    tipo_ato=item['Tipo_Ato'],
-                    numero_ato=item['Numero_Ato'],
-                    ano_ato=item['Ano_Ato']
-                )
-
-        return Ncm(
-            codigo_ncm='',
-            descricao_ncm='',
-            data_inicio=datetime.now(),
-            data_fim=datetime.now(),
-            tipo_ato='',
-            numero_ato='',
-            ano_ato=0,
-        )
+        index_ncm = self.build_ncm_index(json_data=self.json_data)
+        if codigo_ncm in index_ncm:
+            data = index_ncm[codigo_ncm]
+            return Ncm(
+                codigo_ncm=codigo_ncm,
+                descricao_ncm=data['descricao_ncm'],
+                data_inicio=data['data_inicio'],
+                data_fim=data['data_fim'],
+                tipo_ato=data['tipo_ato'],
+                numero_ato=data['numero_ato'],
+                ano_ato=data['ano_ato']
+            )
+        else:
+            return Ncm(
+                codigo_ncm='',
+                descricao_ncm='',
+                data_inicio=datetime.now(),
+                data_fim=datetime.now(),
+                tipo_ato='',
+                numero_ato='',
+                ano_ato=0,
+            )
