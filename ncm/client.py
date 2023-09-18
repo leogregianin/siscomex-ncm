@@ -95,8 +95,12 @@ class FetchNcm(object):
             codigo_ncm = item['Codigo'].replace('.', '')
             index[codigo_ncm] = {
                 'descricao_ncm': item['Descricao'],
-                'data_inicio': datetime.strptime(item['Data_Inicio'], '%d/%m/%Y'),
-                'data_fim': datetime.strptime(item['Data_Fim'], '%d/%m/%Y'),
+                'data_inicio': datetime.strptime(
+                    item['Data_Inicio'], '%d/%m/%Y'
+                ),
+                'data_fim': datetime.strptime(
+                    item['Data_Fim'], '%d/%m/%Y'
+                ),
                 'tipo_ato': item['Tipo_Ato'],
                 'numero_ato': item['Numero_Ato'],
                 'ano_ato': item['Ano_Ato']
