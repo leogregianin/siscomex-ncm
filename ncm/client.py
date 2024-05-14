@@ -82,9 +82,9 @@ class FetchNcm(object):
                         descricao_ncm=item['Descricao'],
                         data_inicio=data_inicio,
                         data_fim=data_fim,
-                        tipo_ato=item['Tipo_Ato'],
-                        numero_ato=item['Numero_Ato'],
-                        ano_ato=item['Ano_Ato']
+                        tipo_ato=item['Tipo_Ato_Ini'],
+                        numero_ato=item['Numero_Ato_Ini'],
+                        ano_ato=item['Ano_Ato_Ini']
                     )
                 )
         return NcmList(ncm_list=list_ncm)
@@ -101,9 +101,9 @@ class FetchNcm(object):
                 'data_fim': datetime.strptime(
                     item['Data_Fim'], '%d/%m/%Y'
                 ),
-                'tipo_ato': item['Tipo_Ato'],
-                'numero_ato': item['Numero_Ato'],
-                'ano_ato': item['Ano_Ato']
+                'tipo_ato': item['Tipo_Ato_Ini'],
+                'numero_ato': item['Numero_Ato_Ini'],
+                'ano_ato': item['Ano_Ato_Ini']
             }
         return index
 
@@ -116,18 +116,7 @@ class FetchNcm(object):
 
         """
         index_ncm = self.build_ncm_index(json_data=self.json_data)
-        if codigo_ncm in index_ncm:
-            data = index_ncm[codigo_ncm]
-            return Ncm(
-                codigo_ncm=codigo_ncm,
-                descricao_ncm=data['descricao_ncm'],
-                data_inicio=data['data_inicio'],
-                data_fim=data['data_fim'],
-                tipo_ato=data['tipo_ato'],
-                numero_ato=data['numero_ato'],
-                ano_ato=data['ano_ato']
-            )
-        else:
+        if codigo_ncm not in index_ncm:
             return Ncm(
                 codigo_ncm='',
                 descricao_ncm='',
@@ -137,3 +126,13 @@ class FetchNcm(object):
                 numero_ato='',
                 ano_ato=0,
             )
+        data = index_ncm[codigo_ncm]
+        return Ncm(
+            codigo_ncm=codigo_ncm,
+            descricao_ncm=data['descricao_ncm'],
+            data_inicio=data['data_inicio'],
+            data_fim=data['data_fim'],
+            tipo_ato=data['tipo_ato'],
+            numero_ato=data['numero_ato'],
+            ano_ato=data['ano_ato']
+        )
