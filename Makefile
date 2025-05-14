@@ -2,7 +2,7 @@ test:
 	poetry run pytest -vv --cov=.
 
 lint:
-	poetry run flake8 ./ncm/
+	poetry run ruff check ./ncm/
 
 mypy:
 	poetry run mypy .
